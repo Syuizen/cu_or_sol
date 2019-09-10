@@ -1,0 +1,233 @@
+\begin{enumerate}
+	\lhead{Summer 17}
+	\rhead{Problem 1}
+	\item 
+	%Let $\lVert \cdot \rVert_2$ be the $\ell_2$-norm. The distance of a point $y \in \mathbb{R}^n$
+	%from a hyperplane $\alpha^Tx=\alpha_0$ is given by the formula
+	%$$
+	%\operatorname{dist}_{(\alpha, \alpha_0)}(y)  =\frac{\lvert \alpha^Ty-\alpha_0\rvert}{\lVert \alpha\rVert_2}
+	%$$
+	%There is always a unique point $y_0$ on the hyperplane such that $\lVert y-y_0\rVert_2 = \operatorname{dist}_{(\alpha, \alpha_0)}(y) $. A ball $B(\xi, %\xi_0)$ with center $\xi\in \mathbb{R}^n$ and radius $\xi_0$ is $B(\xi, \xi_0)=\{x\in \mathbb{R}^n\mid \lVert x-\xi\rVert_2\le \xi_0 \}$.
+	%Let $P=\{x\in \mathbb{R}^n\mid a_i^Tx\le b_i,~i=1,\ldots,m\}$ be a given polyhedron.
+
+	%\begin{enumerate}[(a)]
+	%	\item Prove that $B(\xi, \xi_0)\subseteq P$ if and only if $\xi \in P$ and $\xi_0 \le \operatorname{dist}_{(a_i,b_i)}(\xi)$ for $i = 1,\ldots, m$. %(Note: It may help to draw in $\mathbb{R}^2$).
+	%
+	%	
+	%	\item Using (1a), give an optimization formulation for finding the ball of largest
+	%	radius inscribed (i.e., contained entirely) in $P$
+	%	
+	%	\item What can you say about your optimization formulation from above, is it
+	%	— linear or nonlinear, convex or nonconvex?
+	%\end{enumerate}
+		\begin{enumerate}[(a)]
+			\item Suppose $B(\xi, \xi_0)\subseteq P$. Obviously, $\xi\in P$. Assume $\xi_0 > \operatorname{dist}_{(a_j,b_j)}(\xi)$ for some $j\in \{1,\ldots, m\}$. In other words, we can find a number $\epsilon>0$ such that $\xi_0 \ge (1+\epsilon)\operatorname{dist}_{(a_j,b_j)}(\xi)$.  There exists an unique $\xi^*$ such that $\lVert \xi-\xi^*\rVert_2 = \operatorname{dist}_{(a_j,b_j)}(\xi)$. Furthermore, since $a_j\neq \bo$, there exists $z\in \mathbb{R}^n$ such that $a_j^\top z = 1$. Let $\xi' = \frac{\operatorname{dist}_{(a_j,b_j)}(\xi) }{\lVert z\rVert_2}z$.
+			Consider 
+			$$
+			\widetilde{\xi} = \xi^* +  \epsilon \xi' 
+			$$ Observe that
+			$$
+			\lVert \xi - \widetilde{\xi}\rVert_2 \le \lVert \xi - \xi^*\rVert_2 + \epsilon\lVert \xi'\rVert = (1+\epsilon)\operatorname{dist}_{(a_j,b_j)}(\xi) \le \xi_0
+			$$
+			Therefore, $\widetilde{\xi} \in B(\xi, \xi_0)\subseteq P$. However, 
+			$$
+			a_j^\top\widetilde{\xi} = a_j^\top(\xi^* + \epsilon \xi') = b_j + \epsilon a^\top_j\xi' > b_j
+			$$ 
+			This contradiction leads to that $\xi_0 \le \operatorname{dist}_{(a_i, b_i)}(\xi)$ for all $i$.
+			
+			Conversely, assume $\xi\in P$ and $\xi_0 \le \operatorname{dist}_{(a_i, b_i)}(\xi)$ for all $i$. Suppose there is a point $z\in B(\xi, \xi_0)$ such that $z\not \in P$. Then $a_j^\top z > b_j$ for some $j$. Since $a^\top_j\xi \le b_j$ and ball is convex, we can find $\beta\in (0,1)$ such that $a^\top_j(\beta z+ (1-\beta) \xi) = b_j$. 
+			$$
+			\lVert \xi - ( \beta z+ (1-\beta) \xi)\rVert_2 = \beta \lVert \xi-z\rVert_2 \le \beta \xi_0 < \xi_0
+			$$
+			On the other side, 
+			$$
+			\operatorname{dist}_{(a_j,b_j)}(\xi) \le \lVert \xi - ( \beta z+ (1-\beta) \xi)\rVert_2 ~\Rightarrow~ \operatorname{dist}_{(a_j,b_j)}(\xi) < \xi_0
+			$$
+			We have derived a contradiction.
+			\newpage 
+			\item  Let $r$ denote the radius.
+			$$
+			\begin{aligned}
+			&\max& &r&\\
+			&s.t.& &\xi \in P&\\
+			&& &r\le\operatorname{dist}_{(a_i,b_i)}(\xi) = \frac{\lvert a_i^\top \xi - b_i\rvert}{\lVert a_i\rVert_2},& &\forall i=1,\ldots,m\\
+			&& &r\ge 0& &&\\
+			\end{aligned}			
+			$$
+			Observe that $|a_i^\top \xi -b_i| = x_i^+-x_i^-$ where $x^+_i =  \max\{a_i^\top \xi -b_i ,0\}$ and $x^-_i = \min\{a_i^\top \xi -b_i ,0\}$. We can construct an equivalent linear formulation:
+			\[
+			\begin{aligned}
+			&\max& &r -M\sum_{i=1}^n\left(x_i^+-x_i^-\right)&\\
+			&s.t.& &a_i^\top\xi \le b_i& &\forall i=1,\ldots,m&\\
+			&& &\lVert a_i\rVert_2 r\le x_i^+-x_i^-& &\forall i=1,\ldots,m&\\
+			&& &r\ge 0& &&\\
+			&& &x_i^+\ge a_i^\top-b_i& &\forall i=1,\ldots,m&\\
+			&& &x_i^+\ge 0& &\forall i=1,\ldots,m&\\
+			&& &x_i^-\le a_i^\top\xi -b_i& &\forall i=1,\ldots,m&\\
+			&& &x_i^-\le 0& &\forall i=1,\ldots,m&\\
+			\end{aligned}
+			\]
+			
+			where $M$ is a sufficiently large positive number such that all $x_i^+-x_i^-$ are enforced to attain its minimum $|a_i^\top\xi - b_i|$ in the optimal solution.
+			\item Linear and convex.
+		\end{enumerate}
+
+	\newpage
+	\rhead{Problem 2}
+	\item
+%	 Consider the set $X = \{x \in \mathbb{R}^3\mid x_1 + x_3 = 1, x_2^2 \le x_1x_3\}$.
+%	\begin{enumerate}[(a)]
+%		\item Show that $X$ is a convex set. You may need to use the fact that for any
+%		$x, y \in X$, we have
+%		$$
+%		(\sqrt{x_1y_3}-\sqrt{x_3y_1})^2 \le x_1y_3 + x_3y_1 -2x_2y_2
+%		$$
+%		
+%		\item Is the function $x_2^2 - x_1x_3$ a convex function in $\mathbb{R}^3$? Prove the convexity
+%		or state the reason why it is not convex. 
+%		
+%		\item Find all points satisfying the first-order KKT conditions to
+%		$$
+%		\max \{x_1 + x_2 + x_3 \mid x \in X\}
+%		$$
+%		\item What can you say about the first-order KKT conditions of the above
+%		problem — are they necessary, sufficient, neither, or both, for optimality? What
+%		does that tell you about the KKT points found in (2c)?
+%	\end{enumerate}
+		\begin{enumerate}[(a)]
+			\item Let $(x_1,x_2,x_3)$ and $(y_1, y_2, y_3)$ be two points in $X$. Furthermore, let $\lambda\in (0,1)$ and $(z_1,z_2,z_3) = \lambda(x_1,x_2,x_3)+(1-\lambda)(y_1,y_2,y_3)$. We need to show $(z_1,z_2,z_3)\in X$. 
+			$$
+			z_1+z_3 = \lambda(x_1+x_3) + (1-\lambda)(y_1+y_3) = \lambda+1-\lambda = 1
+			$$
+			In order to check the second constraint, we need compute two terms separately
+			$$
+			z_2^2 = (\lambda x_2 + (1-\lambda)y_2)^2 = \lambda^2x_2^2 + (1-\lambda)^2y_2^2 + 2\lambda(1-\lambda)x_2y_2
+			$$
+			$$
+			z_1z_3 = (\lambda x_1 + (1-\lambda)y_1)(\lambda x_3 + (1-\lambda)y_3) = \lambda^2 x_1x_3 + (1-\lambda)y_1y_3 + \lambda(1-\lambda)(x_1y_3+x_3y_1)
+			$$
+			Note that $x_2^2\le x_1x_3$ and $y_2^2\le y_1y_3$. Also, observe
+			$$
+			2\lambda(1-\lambda)x_2y_2 \le \lambda(1-\lambda)\left(x_1y_3+x_3y_1 - \left(\sqrt{x_1y_3}-\sqrt{x_3y_1}\right)^2 \right) \le \lambda(1-\lambda)(x_1y_3+x_3y_1)
+			$$
+			We conclude $z_2^2 \le z_1z_3$.
+			
+			\item No. The determinant of its hessian is negative.
+			\[
+			\nabla^2 f(\bx)  =\begin{bmatrix}
+			0 & 0 & -1\\
+			0 & 2 & 0\\ -1 & 0 & 0
+			\end{bmatrix} ~\Rightarrow~ \det\left(\nabla^2 f(\bx) \right) = -2 < 0
+			\]
+			
+			\item The optimization problem is 
+			\begin{align*}
+			\max \quad &x_1+x_2+x_3\\
+			s.t.\quad & x_1+x_3  - 1= 0\\
+			&x_2^2 - x_1x_3\le 0
+			\end{align*}
+			$\mathcal{L}(x_1,x_2,x_3,\mu,\lambda) = x_1+x_2+x_3 - \mu (x_1+x_3-1) -\lambda(x_2^2-x_1x_3)$.~\\
+			\textbf{KKT conditions:}
+			\begin{align*}
+			1 - \mu +\lambda x_3 &= 0&(1)\\
+			1  - 2\lambda x_2 &=0&(2)\\
+			1 -\mu + \lambda x_1 &=0&(3)\\
+			\lambda (x_2^2-x_1x_3) &= 0&(4)\\
+			x_1+x_3-1&=0&(5)\\
+			x_2^2-x_1x_3&\le 0&(6)\\
+			\lambda &\ge 0&(7) 
+			\end{align*}
+			Equation $(3)$ implies that $\lambda \neq 0$ and $x_2\neq 0$. Moreover, $(2)$ and $(7)$ show that $\lambda, x_2 >0$. 
+			Therefore, $(1) - (3) =0$ implies $x_1=x_3$. Then $x_1=x_3 = 1/2$ follows from $(5)$.
+			Equation $(4)$ enforces $x_2^2=x_1x_3  = 1/4 ~\Rightarrow~ x_2=1/2$. Solve $(1)$ and $(2)$ for $\mu, \lambda$ to get $\mu =3/2, \lambda= 1$. In a summary, there is only one solution to the KKT conditions.
+			\[
+			(\bar{x}_1,\bar{x}_2,\bar{x}_3,\bar{\mu},\bar{\lambda}) = \left( \frac{1}{2}, \frac{1}{2}, \frac{1}{2}, \frac{3}{2}, 1 \right)
+			\]
+			i.e. $\bar{\bx} = (\bar{x}_1,\bar{x}_2,\bar{x}_3)$ is the only KKT point.
+			
+			\item Let $g(\bx) = x_2^2-x_1x_3$ and $h(\bx) = x_1+x_3-1$. Then
+			\[
+			\nabla g(\bar{\bx}) = \begin{bmatrix}
+			-1/2\\ 1 \\ -1/2
+			\end{bmatrix};~~~\nabla h(\bar{\bx}) =\begin{bmatrix}
+			1 \\ 0 \\1
+			\end{bmatrix}
+			\]
+			Since $\nabla g(\bar{\bx}), \nabla h(\bar{\bx})$ are linearly independent, KKT conditions are necesssary. As $g(\bx)$ is not convex, KKT conditions may not be sufficient. ~\\
+			Let $\bx^*$ be the optimizer of the problem in part (c). Since KKT conditions are necessary, $\bx^*$ is a KKT point. Together with the fact $\bar{\bx}$ is the only KKT point, we have $\bar{\bx} = \bx^*$ i.e. $\bar{\bx}$ is the optimizer.
+		\end{enumerate}
+	
+	\newpage 
+	\rhead{Problem 3}
+	\item Let $A \in \mathbb{R}^{m\times n}$ be the matrix of which $i-$th \textit{column} is $a_i$. Then
+	\[
+	(a) ~\Leftrightarrow~ P:=\left\{\lambda\in \mathbb{R}^m: \begin{bmatrix}
+	A \\-A\\I
+	\end{bmatrix} \lambda \ge \begin{bmatrix}
+	\bo\\\bo\\\bo
+	\end{bmatrix},~ - \textbf{1}^\top \lambda < 0 \right\} \neq \emptyset
+	\]
+	Note that the first inequality guarantees that $\sum_{i=1}^n \lambda_ia_i = A \lambda = \bo$ and $\lambda \ge \bo$. The second inequality is $\sum_{i=1}^n\lambda_i > 0$. Since $\lambda \ge \bo$, it is equivalent to $\lambda \neq \bo$.
+	~\\\\
+	By Farkas' lemma, we can construct the dual system of $P$.
+	\[
+	D:=\left\{ \begin{bmatrix}
+	\bx \\ \by \\ \bz
+	\end{bmatrix} \in \mathbb{R}^{3n}:  \begin{bmatrix}
+	A^\top &-A^\top&I
+	\end{bmatrix}\begin{bmatrix}
+	\bx \\ \by \\ \bz
+	\end{bmatrix} = -\textbf{1},~ \begin{bmatrix}
+	\bx \\ \by \\ \bz
+	\end{bmatrix} \ge \begin{bmatrix}
+	\bo\\\bo\\\bo
+	\end{bmatrix} \right\}
+	\] 
+	The first inequality is $ \bz + \textbf{1} = A^\top (\by - \bx)$. We want to show $D\neq \emptyset$ is equivalent to (b). Suppose $D\neq \emptyset$, then let $\bd = \by-\bx$. 
+	\[
+	  A^\top \bd = \bz + \textbf{1}\ge \bo ~\Rightarrow~a_i^\top \bd \ge \bo,~ \forall i=1,2,\ldots,m ~\Rightarrow~ (b) \text{ is true}
+	\]
+	Conversely, if (b) is true, then $\exists ~w\ge 0$ such that $wa_i^\top \bd \ge 1$ for all $i=1,\ldots,m$. Let 
+	\[
+	y_i = \max\{wd_i, 0 \},~x_i=\max\{ -wd_i,0\},~\forall i=1,\ldots,m
+	\]	
+	Then $\by, \bx \ge \bo$ and $\by - \bx = w\bd$. Moreover, let $\bz = A^\top (\by - \bx) - \textbf{1} = wA^\top\bd -\textbf{1} \ge \bo$. It's obvious that $(\bx, \by,\bz)\in D$. Consequently,
+	\[
+	(a) ~\Leftrightarrow~ P \neq \emptyset;~~(b) ~\Leftrightarrow~ D\neq \emptyset
+	\]
+	Farkas' lemma says exactly one of $P$ and $D$ is nonempty. It follows that exactly one of (a) and (b) holds.
+	
+	\newpage
+	\rhead{Problem 4} 
+	\item Not required.
+	
+	\newpage 
+	\rhead{Problem 5}
+	\item \begin{enumerate}[(a)]
+	
+	\item Let $E_0 = \{e\in E: w(e) = 0\}$ be the set of edges with weight $0$ and $E_1 = E\setminus E_0$. It's sufficient to show there exists a assignment in which all edges come from $E_0$. Equivalently, the following optimization problem is feasible.
+	\begin{align*}
+	\min \quad & 0 \tag{P}\\
+	s.t. \quad &\sum_{i: (i,j)\in E_0} x_{ij} = 1,\quad \forall j=1,\ldots,n\\
+	&\sum_{j: (i,j)\in E_0} x_{ij} = 1,\quad \forall i=1,\ldots,n\\
+	&0\le x_{ij} \le 1, \quad \forall (i,j)\in E_0 
+	\end{align*}
+	The dual problem is 
+	\begin{align*}
+	\max \quad & \sum_{j=1}^n y_j + \sum_{i=1}^n z_i + \sum_{ (i,j)\in E_0} t_{ij} \tag{D}\\
+	s.t.\quad & y_j+z_i+t_{ij}\le 0, \quad \forall (i,j)\in E_0\\
+	&t_{ij} \le 0, \quad \forall (i,j)\in E_0
+	\end{align*} 
+	Note that $(D)$ is always feasible because $(y,z,t) = (0,0,0)$ is a feasible solution. Moreover, each vertex $i$ has at least $1$ edge in $E_0$. So 
+	\[
+	y_j \le 0,~\forall j=1,\ldots,n;~~z_i\le 0,~\forall i=1,\ldots, n
+	\] 
+	Hence $(D)$ has an upper bound $0$. It follows that $(0,0,0)$ is the optimal solution. By strong duality theorem, $(P)$ is also feasible.
+ 	
+ 	\item Suppose $\ell_1 \subseteq E_0$ is an assignment with weight $0$. If we remove $\ell_1$ from the graph, then each vertex is incident to exactly $k-1$ edges with weight $0$. By part (a), there exists an assignment $\ell_2 \subseteq E_0$ with weight $0$. Then, after removing $\ell_2$, each vertex in new graph is incident to exactly $k-2$ edges with weight 0.\\ Continue this procedure, we can find $k$ pairwise disjoint assignments $\ell_1,\ell_2,\ldots, \ell_k$. 
+ 	Furthermore, after deleting $\ell_k$, each vertex is incident to exactly $k-k=0$ edges with weight $0$. These assignments form a partition of $E_0$.
+ 	\[
+ 	\ell_1 \bigcup \ell_2 \bigcup \cdots \bigcup \ell_k = E_0
+ 	\]
+	\end{enumerate}
+\end{enumerate}

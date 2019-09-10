@@ -1,0 +1,4 @@
+\contentsline {section}{\numberline {1}Winter 17}{2}{section.1}% 
+\contentsline {section}{\numberline {2}Summer 17}{13}{section.2}% 
+\contentsline {section}{\numberline {3}Summer 18}{20}{section.3}% 
+\contentsline {section}{\numberline {4}Winter 19}{27}{section.4}% 

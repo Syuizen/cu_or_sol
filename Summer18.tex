@@ -1,0 +1,364 @@
+\begin{enumerate}
+	\lhead{Summer 18}
+	\rhead{Problem 1}
+	\item 
+	\begin{enumerate}[(a)]
+		\item Infeasible: $(x_1,x_2^+)$. Feasible but not optimal: $(x_1,s_1)$. Non-basic: $(x_2^+,x_2^-)$.
+		\item The optimization problem in standard form is
+		\[
+		\begin{aligned}
+		\min \quad& c_1x_1+c_2x_2^+-c_2x_2^-\\
+		s.t. \quad& a_{11}x_1+a_{12}x_{2}^+ - a_{12}x_{2}^- +s_1& &= b_1\\
+		&a_{21}x_1+a_{22}x_{2}^+ - a_{22}x_{2}^- &+s_2 &= b_2\\
+		&x_1, x_{2}^+,x_2^-,s_1,s_2\ge 0
+		\end{aligned}~~\Leftrightarrow~~ 
+		\begin{aligned}
+		\min \quad& c^\top x\\
+		s.t. \quad& Ax + Is=b\\
+		&x, s\ge 0\\&~
+		\end{aligned}
+		\]
+		In the optimal tableau, $\{x_1,x_2^-\}$ are basic variables. The corresponding constraint matrix is
+		\[
+		B = \begin{bmatrix}
+		a_{11} & -a_{12}\\a_{21} & -a_{22}
+		\end{bmatrix}~\Rightarrow~ B^{-1} = \begin{bmatrix}
+		2 & 1\\1 & 1
+		\end{bmatrix} \text{ is the constraint matrix of }s \text{ in the tableau} 
+		\]
+		Furthermore, the constraint matrix of $x$ in the tableau is
+		\[
+		B^{-1} A = \begin{bmatrix}
+		1 & 0 & 0\\0 &-1 &1
+		\end{bmatrix} \text{ and } B^{-1}b = \begin{bmatrix}
+		6\\5
+		\end{bmatrix}
+		\]
+		In order to find $A$, we need compute $B$ first.
+		\[
+		B = \left(B^{-1}\right)^{-1} = \begin{bmatrix}
+		1 & -1\\ -1 & 2
+		\end{bmatrix}~\Rightarrow~ A = B(B^{-1}A) = \begin{bmatrix}
+		1 & 1 & -1\\-1 & -2 & 2
+		\end{bmatrix} \text{ and } b = B(B^{-1}b)=\begin{bmatrix}
+		1\\4
+		\end{bmatrix}
+		\]
+		The first row in the tableau is the reduced cost vector.
+		\[
+		\begin{bmatrix}
+		0\\0\\0\\3\\1
+		\end{bmatrix}^\top = \begin{bmatrix}
+		c_1\\c_2\\-c_2\\0\\0
+		\end{bmatrix}^\top - \begin{bmatrix}
+		c_1 \\ -c_2
+		\end{bmatrix}^\top \begin{bmatrix}
+		B^{-1}A & B^{-1}
+		\end{bmatrix} = \begin{bmatrix}
+		0 \\ 0\\ 0\\ -2c_1+c_2\\-c_1+c_2
+		\end{bmatrix}
+		\]
+		Solve for $c_1,c_2$ to get $c_1 = -2$ and $c_2=-1$. The original optimization problem is
+		\[
+		\begin{aligned}
+		\min \quad & -2x_1-x_2\\
+		s.t. \quad &x_1 + x_2 &\le 1 \\
+		&-x_1 -2x_2 &\le 4\\
+		&x_1\ge 0
+		\end{aligned}
+		\]
+		And $(x_1^*, x_2^*) = (6,-5)$.
+		\newpage
+		
+		\item $(x_1^*, x_2^*)$ remains optimal if and only if all reduced costs of nonbasic variables are non-negative. 
+		\[\left\{
+		\begin{aligned}
+		-2c_1 -1 &\ge 0\\
+		-c_1 -1 &\ge 0 
+		\end{aligned}\right. ~\Rightarrow~ c_1 \le -1
+		\]
+		
+		\item The Lagrangian is
+		$$
+		\mathcal{L}(x_1,x_2,\lambda_1,\lambda_2,\lambda_3) = -2x_1-x_2 + \lambda_1 (x_1+x_2-1) + \lambda_2(-x_1-2x_2-4) + \lambda_3(-x_1)
+		$$
+		KKT conditions:
+		\[
+		\begin{aligned}
+		-2 + \lambda_1-\lambda_2-\lambda_3 &= 0\\
+		-1 + \lambda_1 -2\lambda_2 &=0\\
+		 \lambda_1 (x_1+x_2-1) &=0\\
+		 \lambda_2(-x_1-2x_2-4) &=0\\
+		 \lambda_3(-x_1) &=0\\
+		 x_1+x_2-1 &\le 0\\
+		 -x_1-2x_2-4&\le 0\\
+		 -x_1&\le 0\\
+		 \lambda_1, \lambda_2,\lambda_3 &\ge 0
+		\end{aligned}
+		\]
+		KKT conditions at $(x_1^*, x_2^*) = (6,-5)$.
+		\[
+		\begin{aligned}
+		-2 + \lambda_1-\lambda_2-\lambda_3 &= 0\\
+		-1 + \lambda_1 -2\lambda_2 &=0\\
+		\lambda_3 &=0
+		\end{aligned} ~\Rightarrow~ \left\{
+		\begin{aligned}
+		\lambda_1 &=3\\
+		\lambda_2 &=1\\
+		\lambda_3 &=0
+		\end{aligned}
+		\right.
+		\]
+		\item Compared to KKT conditions in part (d), only stationarity constraints are different.
+		\\
+		New stationarity:
+		\[
+		\begin{aligned}
+		-2(x_1-5)+\lambda_1-\lambda_2-\lambda_3 &= 0\\
+		-1 + \lambda_1 -2\lambda_2 &=0\\
+		\end{aligned}
+		\]
+		Evaluate new KKT conditions at $(x_1^*,x_2^*) = (6,-5)$:
+		\[
+		\begin{aligned}
+		-2 + \lambda_1-\lambda_2-\lambda_3 &= 0\\
+		-1 + \lambda_1 -2\lambda_2 &=0\\
+		\lambda_3 &=0
+		\end{aligned} ~\Rightarrow~ \left\{
+		\begin{aligned}
+		\lambda_1 &=3\\
+		\lambda_2 &=1\\
+		\lambda_3 &=0
+		\end{aligned}
+		\right.
+		\]
+		$(x_1^*,x_2^*) = (6,-5)$ is still a KKT point but not an optimizer to the new problem since the objective function $-(x_1-5)^2-x_2$ attains a smaller value at $(0,0)$, which is $-25$. 
+	\end{enumerate}
+
+\newpage
+\item 
+\rhead{Problem 2}
+Observe that $f(\bx) = \frac{1}{2} \bx^\top Q\bx$ is convex and differentiable. $\nabla f(\bx) = Q\bx$. 
+Let 
+\[
+g(\lambda):=f(\bx_p -\lambda \nabla f(\bx_p)) = \frac{1}{2} \left(\bx_p^\top Q\bx_p - 2\lambda \bx_p^\top Q^\top Q\bx_p + \lambda^2 \bx_p^\top Q^\top Q^2 \bx_p\right)
+\]
+Note that $g(\lambda)$ is a quadratic function with positive leading coefficient and thus $g(\lambda)$ is convex and differentiable. The minimum value of $g(\lambda)$ attains at its stationary point $\lambda^*$
+\[
+\nabla_\lambda g(\lambda^*)  = -\bx_p^\top Q^\top Q\bx_p + \lambda^* \bx_p^\top Q^\top Q^2 \bx_p = 0
+\]
+Conclude that
+\[
+\lambda^* = \frac{\bx_p^\top Q^\top Q\bx_p}{\bx_p^\top Q^\top Q^2 \bx_p}
+\]
+
+\newpage
+\item 
+\rhead{Problem 3}
+\begin{enumerate}[(a)]
+	\item Let $(P^\top\bx)_h$ be the $h$-th element of $P^\top \bx$.
+	\[
+	(P^\top \bx)_h = \sum_{j=1}^n P_{hj}x_j \le \left(\max_{i=1,\ldots,n} x_i\right) \sum_{j=1}^nP_{ij} = \left(\max_{i=1,\ldots,n} x_i\right) (P^\top \be)_h = \left(\max_{i=1,\ldots,n} x_i\right)e_h
+	\]
+	Thus
+	\[
+	P^\top \bx \le \left(\max_{i=1,\ldots,n} x_i\right) \be
+	\]
+	\item Rewrite the linear system $\mathcal{P}$ as follows:
+	\[
+	\begin{bmatrix}
+	P -I\\
+	\be^\top 
+	\end{bmatrix} \bx = \begin{bmatrix}
+	\bo \\ 1
+	\end{bmatrix}, ~\bx \ge \bo 
+	\]
+	Its dual system $\mathcal{D}$ is
+	\[
+	\begin{bmatrix}
+	P^\top - I & \be 
+	\end{bmatrix} \begin{bmatrix}
+	\by \\ z
+	\end{bmatrix} \ge \bo,~ \begin{bmatrix}
+	\bo & 1
+	\end{bmatrix} \begin{bmatrix}
+	\by \\ z
+	\end{bmatrix} < 0
+	\]
+	Or equivalently,  
+	\[
+	P^\top \by \ge \by - z\be,~ z<0 
+	\]
+	We need to show $\mathcal{D}$ is infeasible. Suppose not, there exists $(\by, z)$ satisfies above inequalities. For some $r\in \{1,\ldots, b\}$, we have $y_r = \max_{i=1,\ldots,n} y_i$. Then 
+	\[
+	(P^\top \by)_r \ge y_r - z > y_r
+	\]
+	However, $$
+	(P^\top \by)_r \le \left(\max_{i=1,\ldots,n} y_i\right) \be_r =\max_{i=1,\ldots,n} y_i = y_r
+	$$
+	Since $\mathcal{D}$ is infeasible, Farkas' lemma says $\mathcal{P}$ must be feasible.
+	
+\end{enumerate}
+
+\newpage
+\item 
+\rhead{Problem 4}
+\begin{enumerate}[(a)]
+	\item Let $x_{ij}$ be the amount of flow on the arc $i\rightarrow j$.
+	\[
+	\begin{aligned}
+	\min \quad & c_{12}x_{12}+c_{13}x_{13}+c_{23}x_{23}+c_{24}x_{24}+c_{34}x_{34} &\quad(\mathcal{P})\\
+	s.t. \quad & x_{12} + x_{13}  = 1\\
+	&-x_{12} + x_{23} + x_{24} = 1\\
+	&-x_{13}-x_{23}+ x_{34} =1\\
+	&-x_{24} - x_{34}  =-3\\
+	&x_{12}, x_{13}, x_{23}, x_{24}, x_{34} \ge 0
+	\end{aligned}
+	\]
+	
+	\item \[
+	\begin{aligned}
+	\max \quad &p_1+p_2+p_3-3p_4 &(\mathcal{D})\\
+	s.t.\quad & p_1 - p_2 \le c_{12}\\
+	&p_1-p_3 \le c_{13}\\
+	&p_2-p_3 \le c_{23}\\
+	&p_2-p_4\le c_{24}\\
+	&p_3-p_4\le c_{34}
+	\end{aligned}
+	\]
+	
+	\item Suppose $\bx^*$ and $\bm p^*$ are optimal solutions to primal and dual problems respectively.
+	\[
+	\begin{aligned}
+	x_{12}^*(p_1^* - p_2^* - c_{12})&=0\\
+	x_{13}^*(p_1^*-p_3^*- c_{13})&=0\\
+	x_{23}^*(p_2^*-p_3^* - c_{23})&=0\\
+	x_{24}^*(p_2^*-p_4^*- c_{24})&=0\\
+	x_{34}^*(p_3^*-p_4^*-c_{34})&=0
+	\end{aligned}
+	\]
+	
+	\item It is easy to find the primal optimal solution and then the dual solution can also be derived easily
+	\[
+	\left\{ 
+	\begin{aligned}
+	x_{12}^* &= 1\\
+	x_{13}^* &= 0\\
+	x_{23}^* &= 2\\
+	x_{24}^* &= 0\\
+	x_{34}^* &= 3
+	\end{aligned}
+	\right.  ~\Rightarrow~ \left\{ 
+	\begin{aligned}
+	p_{1}^* &= 4\\
+	p_{2}^* &= 3\\
+	p_{3}^* &= 2\\
+	p_{4}^* &= 0\\
+	\end{aligned}
+	\right.
+	\]
+	The shortest directed paths to node 4 from other nodes are
+	\[
+	\text{node 1: }1 \rightarrow 2 \rightarrow 3 \rightarrow 4;~~\text{node 2: } 2 \rightarrow 3 \rightarrow 4;~~ \text{node 3: }3 \rightarrow 4
+	\]
+	\newpage 
+	\item Let's analyze the constrains of $\mathcal{P}$ first,
+	\[
+	\left.\begin{aligned}
+	&x_{12} + x_{13}  &= 1&~\Rightarrow~\text{ at least one of } \{x_{12}, x_{13}\} > 0\\
+	&-x_{12} + x_{23} + x_{24} &= 1& ~\Rightarrow~ \text{ at least one of } \{x_{23}, x_{24}\} > 0\\
+	&-x_{13}-x_{23}+ x_{34}& =1& ~\Rightarrow~ x_{34} > 0 
+	\end{aligned}\right\} \text{ at least three }x_{ij} > 0
+	\] 
+	Since the rank of constraint matrix of $\mathcal{P}$ is 3, there are \textit{exactly} three $x_{ij}$ are positive. By complementary slackness, every dual solution satisfying three active constraints is optimal. Note that the number of dual variables is more than $3$. So there always exist a solution $(p_1^*, p_2^*, p_3^*, p_4^*)$ such that $p_4^* = 0$. \\	Suppose $\ell_i$ is the length of the shortest path from node $i$ to node 4. Then, obviously,
+	\[
+	\begin{aligned}
+	\ell_1 &= \min\{~c_{12}+\ell_2, ~c_{13}+\ell_3 ~\}\\
+	\ell_2 &= \min\{~c_{23}+\ell_3, ~c_{24} ~\}\\
+	\ell_3 &= c_{34}
+	\end{aligned}
+	\]
+	Therefore, we can formulate a linear programming $\mathcal{Q}$ to find all $\ell_i$. 
+	\[
+	\begin{aligned}
+	\max \quad & l_1 + l_2 + l_3 &(\mathcal{Q})\\
+	s.t. \quad & l_1 \le c_{12} + l_2 \\
+	&l_1 \le c_{13} + l_3 \\
+	&l_2 \le c_{23} + l_3 \\
+	& l_2 \le c_{24}\\
+	&l_3 \le c_{34}\\
+	\end{aligned} ~~~~~\text{ vs.}~~\begin{aligned}
+	\max \quad &p_1+p_2+p_3-3p_4 &(\mathcal{D})\\
+	s.t.\quad & p_1 \le c_{12} + p_2\\
+	&p_1 \le c_{13} + p_3\\
+	&p_2 \le c_{23}+p_3\\
+	&p_2\le c_{24}+p_4\\
+	&p_3\le c_{34}+p_4
+	\end{aligned}
+	\]
+	Note that $(\ell_1, \ell_2, \ell_3)$ is an optimal solution to $\mathcal{Q}$ and $(\ell_1,\ell_2,\ell_3, 0)$ is a feasible solution to $\mathcal{D}$. Thus
+	\(
+	\ell_1 + \ell_2 + \ell_3 \le p_1^* +p_2^*+p_3^* - 3p_4^* =  p_1^* +p_2^*+p_3^*
+	\). 
+	Conversely, since $p_4^*=0$, $(p_1^*, p_2^*,p_3^*)$ is a feasible solution to $\mathcal{Q}$.
+	\(
+	p_1^* +p_2^*+p_3^* \le \ell_1 + \ell_2 + \ell_3
+	\).
+	Therefore, $$p_1^* +p_2^*+p_3^* = \ell_1 + \ell_2 + \ell_3$$ In order to conclude $p_i^*=\ell_i$ for all $i=1,2,3$, we need to show $p_1^*\ge p_2^*$. If $p_1^*<p_2^*$, then one can show $(p_2^*,p_2^*,p_3^*,0)$ is a feasible solution to $\mathcal{D}$ with greater objective value, which violates the optimality of $(p_1^*,p_2^*,p_3^*,0)$.
+	\[
+	\left\{ 
+	\begin{aligned}
+	&p_1^* +p_2^* +p_3^* = \ell_1 + \ell_2 +\ell_3\\
+	&p_3^* = \ell_3 = c_{34}\\
+	&p_1^* \ge p_2^*\\
+	&\ell_1 \ge \ell_2\\
+	\end{aligned}\right. ~\Rightarrow~ \left\{ 
+	\begin{aligned}
+	&p_1^*= \ell_1 \\
+	&p_2^* = \ell_2\\
+	&p_3^* = \ell_3
+	\end{aligned}\right.
+	\] 
+\end{enumerate}
+
+\newpage
+\item 
+\rhead{Problem 5}
+\begin{enumerate}[(a)]
+	\item Let $\{\alpha_{ij}\}_{j=1}^{n_j}$ be the set of extreme points of $X_i$. Then
+	\[
+	X_i = \left\{\sum_{j=1}^{n_j} \lambda_{ij} \alpha_{ij} ~:~~\sum_{j=1}^{n_j}\lambda_{ij}=1,~\lambda_{ij} \ge 0, \forall j=1,\ldots,n_j \right\},~\forall i=1,\ldots,T
+	\]
+	DW master problem:
+	\begin{align*}
+	\max \quad &\sum_{i=1}^T\sum_{j=1}^{n_j}\lambda_{ij} \bc_i^\top \alpha_{ij} \\
+	s.t.\quad &\sum_{i=1}^T\sum_{j=1}^{n_j}\lambda_{ij} A_i \alpha_{ij}\le \bb\\
+	&\sum_{j=1}^{n_j}\lambda_{ij}=1,\quad \forall i=1,\ldots,T\\
+	&\lambda_{ij} \ge 0, \quad \forall j=1,\ldots,n_j, ~\forall i=1,\ldots,T
+	\end{align*}
+	
+	$i$-th subproblem:
+	\begin{align*}
+	\min \quad &(c_i^\top - q_i^\top A_i)x - r_i \\
+	s.t.\quad &x\in X_i
+	\end{align*}
+	where $\begin{bmatrix}
+	q_r & r_i
+	\end{bmatrix} = (c_{i})_B^\top (A_i)_B^{-1}$
+	\item Suppose $\{\lambda_{ij}\}$ is a feasible solution to the DW master problem. For each $i=1,\ldots,T$,
+	\[
+	\sum_{j=1}^{n_j}\lambda_{ij}=1 \text{ and }\lambda_{ij} \ge 0, \quad \forall j=1,\ldots,n_j
+	\]
+	Therefore, at least of $\{\lambda_{ij}\}_{j=1}^{n_j}$ is positive, i.e. $\{\lambda_{ij}\}_{j=1}^{n_j}$ contains at least one basic variable.
+	
+	\item $i$-th subproblem:
+	\begin{align*}
+	\max \quad &\sum_{j}c_{ij}x_{ij} \\
+	s.t.\quad &\omega_{ij}x_{ij}\le b_j,~\forall j\\
+	&\sum_{j}x_{ij}=1\\
+	&x_{ij} \ge 0, \quad \forall j
+	\end{align*}
+\end{enumerate}
+
+\end{enumerate}

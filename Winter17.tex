@@ -1,0 +1,392 @@
+\begin{enumerate}
+	\lhead{Winter 17}
+	\rhead{Problem 1}
+	\item \begin{enumerate}[(a)]
+		\item $\mathcal{L}(\bx, \blambda) = f(\bx) +\lambda^\top\bg(\bx) $
+		\begin{enumerate}[(i)]
+			\item $\nabla_{\bx} \mathcal{L}(\bx,\lambda) = 0:~\left\{\begin{aligned}
+			&2(1+\lambda_1+\lambda_2)x_1 -16+5 \lambda_3& = 0\\
+			&2x_2 -20-\lambda_1+ \lambda_2+\lambda_3&=0
+			\end{aligned}\right.$
+			
+			\item $\lambda\bg(\bx) = 0:~
+			\left\{\begin{aligned}
+			&\lambda_1(x_1^2-x_2)& = 0\\
+			&\lambda_2(x_1^2+x_2-18)&=0\\
+			&\lambda_3(5x_1+x_2-24)&=0
+			\end{aligned}\right.$ 
+			
+			\item $\bg(\bx)\le 0: ~
+			\left\{\begin{aligned}
+			&x_1^2-x_2& \le 0\\
+			&x_1^2+x_2-18&\le0\\
+			&5x_1+x_2-24&\le0
+			\end{aligned}\right.$
+			
+			\item $\lambda\ge 0$
+		\end{enumerate}
+		
+		\item (ii) and (iii) in KKT conditions are always true for $\bar{\bx}$. In other words, they don't provide us useful information about $\lambda$.
+		\begin{enumerate}[(i)]
+			\item $\nabla_{\bx} \mathcal{L}(\bar{\bx},\lambda) = 0:~\left\{\begin{aligned}
+			&6\lambda_1+6\lambda_2 +5 \lambda_3& = &~ 10\\
+			&-\lambda_1 + \lambda_2+\lambda_3& = &~ 2
+			\end{aligned}\right.~\Rightarrow~\left\{
+			\begin{aligned}
+			&\lambda_1 = -\frac{1}{12}(2-\lambda_3)\\
+			&\lambda_2 =\frac{11}{12}(2-\lambda_3)
+			\end{aligned}
+			\right.$
+			
+			\item[(iv)] $\lambda\ge 0$
+		\end{enumerate}
+		Observe that if $\lambda_3 \neq 2$, then $\lambda_1\lambda_2 < 0$. Since $\lambda_1,\lambda_2\ge 0$, we must have $$\lambda_3 = 2, \lambda_1 = \lambda_2 = 0$$ 
+		
+		\item Obviously, all $g_i(\bx)$ are convex and so is $f(\bx)$. Let $\by = (0,1)$, then $g_1(\by), g_2(\by), g_3(\by)<0$. By Slater's condition, KKT FONC holds at $\bar{\bx}$.
+		
+		\item Since the problem is minimizing a convex function $f(\bx)$, KKT point $\bar{\bx}$ is an optimizer.
+	\end{enumerate}
+	
+	\newpage 
+	\rhead{Problem 2}
+	\item Suppose that $P$ is a nonempty polyhedron with expression $P = \{\bx \in \mathbb{R}^n|A\bx \ge \bb\}$,
+	and that $\bw \in P$ is an extreme point of $P$. Prove that if there exists  $\bd$ such that for
+	some $\bx \in P$, $\bx+\lambda \bd \in P$ for all $\lambda \in \mathbb{R}$, then $\bd$ must be \bo.
+	
+	\begin{proof}
+		\[
+		\forall \lambda,~ \bx+\lambda \bd \in P ~\Leftrightarrow~ \forall \lambda, ~A(\bx+\lambda \bd) \ge \bb
+		\]
+		Then we must have $A\bd = \bo$. Otherwise, $\exists i $ such that $(A\bd)_i \neq 0$. If $(A\bd)_i > 0$, then $\lim_{\lambda \rightarrow -\infty} \lambda(A\bd)_i = -\infty$ which violates $$\lim_{\lambda \rightarrow -\infty}(A\bx+\lambda A\bd)_i \ge b_i > -\infty$$ Similarly, if $(A\bd)_i<0$< then $\lim_{\lambda \rightarrow \infty}\lambda(A\bd)_i =-\infty$ conflicting 
+		$$\lim_{\lambda \rightarrow \infty}(A\bx+\lambda A\bd)_i \ge b_i > -\infty$$ 
+		Note that the existence of extreme point $\bw$ implies that $A\bd = \bo$ if and only if $\bd =\bo$. Otherwise, suppose $\by \neq \bo$ and $A\by = \bo$. Then, obviously, $\bw+\by, \bw -\by\in P$. Moreover,
+		\[
+         \bw = \frac{1}{2}(\bw+\by) + \frac{1}{2}(\bw -\by)
+		\]
+		which is contradictory to the fact $\bw$ is an extreme point.
+		 
+	\end{proof}
+
+	\newpage
+	\rhead{Problem 3}
+	\item 
+	For any $A \in \mathbb{R}^{m\times n}$, consider problems
+	\[
+	p^*:=\min_{\bx\in \mathbb{R}^n}\lVert A\bx - \bb\rVert_1
+	\]
+	and
+	\[
+	\begin{aligned}
+	d^*:=&\max_{\bv\in \mathbb{R}^m}\bb^T\bv\\
+	&\text{subject to } \lVert \bv\rVert_\infty \le 1,~A^T\bv = \bo
+	\end{aligned}
+	\]
+	Show that $p^*\ge d^*$.
+	\begin{proof}
+		Observe that, for two vectors $\ba, \bc\in\mathbb{R}^m$, 
+		\[
+		\lVert \ba^T\bc\rVert_1 = |\ba^T\bc| = \left\lvert \sum_{i=1}^m a_ic_i \right\rvert \le \sum_{i=1}^m |a_ic_i| \le \lVert \ba\rVert_\infty \sum_{i=1}^m|c_i| = \lVert \ba\rVert_\infty \lVert \bc\rVert_1
+		\] 
+		Fix $\bx \in \mathbb{R}^n$, \[
+		\forall \bv \in \mathbb{R}^m,~ |\bv^T\bb|  = \lVert \bv^T A \bx - \bv^T\bb\rVert_1 \le \lVert \bv\rVert_\infty \lVert A\bx - \bb\rVert_1 \le \lVert A\bx - \bb\rVert_1
+		\]
+		Therefore, $\lVert A\bx - \bb\rVert_1\ge d^*$.  Consequently, 
+		$$
+		p^* = \min_{\bx\in \mathbb{R}^n} \lVert A\bx - \bb\rVert_1\ge \min_{\bx\in \mathbb{R}^n} d^* = d^*
+		$$
+	\end{proof}
+	\newpage 
+	\item[3.] \textit{Alternative proof:}\\ Rewrite $p^* :=\min_{\bx\in \mathbb{R}^n} \lVert A\bx-\bb\rVert_1$ as a linear optimization problem.
+	\begin{align*}
+	p^*=\quad \min \quad & \sum_{i=1}^n \left(y_i^++y_i^-\right)\\
+	s.t.\quad & y_i^+ \ge (A\bx)_i - b_i,\quad \forall i =1,\ldots,n\\
+	&y_i^- \ge b_i - (A\bx)_i, \quad \forall i=1,\ldots,n\\
+	&y_i^+, y_i^- \ge 0,\quad \quad \quad \forall i=1,\ldots,n	
+	\end{align*}
+	Its dual problem is 
+	\begin{align*}
+	q^* = \quad \max \quad & \bb^\top (\bz^+-\bz^-)\\
+	s.t.\quad & \bz^+ \le \textbf{1}\\
+	&\bz^- \le \textbf{1}\\
+	&A^\top (\bz^+-\bz^-) = \bo \\
+	&z_i^+, z_i^- \ge 0, \quad \forall i=1,\ldots,n 
+	\end{align*}
+	Let $\bw = \bz^+ - \bz^-$. Then we can rewrite dual problem as
+	\begin{align*}
+	q^* = \quad \max \quad & \bb^\top \bw\\
+	s.t.\quad &\lVert \bw\rVert_\infty \le 1\\
+	&A^\top \bw = \bo \\
+	\end{align*} 
+	Hence $q^* = d^*$. By weak duality,
+	\[
+	q^*\ge q^*= d^*
+	\]
+	
+	\newpage
+	\rhead{Problem 4}
+	\item Consider the feasible and bounded linear programming problem
+	$$z = \min\{\bc^\top\bx : A\bx \ge \bb, \bx \in X\}$$
+	where $A$ is an $m \times n$ matrix and $X$ is a polyhedral set.
+	\begin{enumerate}[(a)]
+		\item Prove or disprove the following statement:
+		\begin{quote}
+			Given any nonnegative $\bpi \in \mathbb{R}^m$,
+			$$v(\bpi) = \bb^\top\bpi + \min\{(\bc^\top-\bpi^\top A)\bx : \bx \in X\}$$
+			has $v(\bpi) \le z$.
+		\end{quote}
+	
+		\item  Prove or disprove the following statement.
+		There exists a nonnegative $\pi$ so that $v(\pi) = z$.
+		\item  Does your answer to either part 4(a) or part 4(b) change if the set $X$ is not polyhedral?
+		Explain.
+	\end{enumerate}
+	
+	\begin{proof}
+		\begin{enumerate}[(a)]
+			\item Since $\bpi$ is non-negative, $-\bpi^\top A\bx \le -\bpi^\top \bb$ if $A\bx\ge \bb$.
+			\[
+			\begin{aligned}
+			v(\bpi) &\le \bb^\top\bpi +\min \{(\bc^\top-\bpi^\top A)\bx: A\bx\ge \bb, \bx \in X\}\\ 
+			&\le \bb^\top\pi + \min \{\bc^T\bx-\bpi^\top\bb: A\bx\ge \bb, \bx \in X\}
+			\\&=\min \{\bc^\top\bx: A\bx\ge \bb, \bx \in X\} = z
+			\end{aligned}
+			\]
+			
+			\item
+			Since $X$ is polyhedral, there exists a $k\times n$ matrix $D$ and a vector $\bh\in \mathbb{R}^k$ such that $X = \{\bx\in \mathbb{R}^n: D\bx\ge \bh\}$. Then, we construct the dual problem of $z$.
+			\[
+			\begin{aligned}
+			z = \quad\min \quad &\bc^\top\bx&\quad (P)\\
+			s.t. \quad & A\bx \ge \bb\\
+			&D\bx \ge \bh
+			\end{aligned}
+			\quad \quad \quad \quad \quad 
+			\begin{aligned}
+			 \quad \max \quad &\bb^\top\by+\bh^\top\bw&\quad (D)\\
+			s.t. \quad & A^\top\by+D^\top\bw = \bc^\top\\
+			&\by, \bw \ge 0
+			\end{aligned}
+			\] 
+			Since the primal problem is feasible and bounded, $(D)$ has an optimizer $(\by^*,\bw^*)$ and $\bb^\top\by^*+\bh^\top\bw^*=z$. On the other side, we can find the dual problem of $\min \{(\bc^\top-\bpi^\top A)\bx:  \bx \in X\}$. By weak duality, 
+			\begin{align*}
+			v(\by^*) \ge \bb^\top\by^*+\quad\max \quad &\bh^\top\bw &(D')\\
+			s.t. \quad &A^\top\by^* + D^\top\bw = \bc^\top\\
+			&\bw \ge 0			 
+			\end{align*}
+			Note that $(D')$ is feasible and hence weak duality can be applied here. Then, 
+			 \[
+			 \max_{\bpi \ge \bo} v(\bpi) \ge v(\by^*) \ge \bb^\top\by^*+\bh^\top\bw^* = z \ge \max_{\bpi \ge \bo} v(\bpi)
+			 \]  
+			 Hence $v(\by^*)  = z$.
+			
+			\item 
+			Only the answer of part 4(b) will change. Because the result of part 4(b) is strongly relied on the strong and weak duality which are not true in general. Note that $v(\pi)$ is Lagrangian of original problem defining $z$. 
+			The following example shows that part 4(b) may fail when $X$ is not polyhedral. 
+			 \[
+			 \begin{aligned}
+			 z=\quad \min \quad &-2x_1+x_2\\
+			 s.t. \quad &x_1+x_2 = 3\\
+			 &x\in X
+			 \end{aligned}
+			 \]
+			 where $X=\{(0,0),(0,4),(4,4),(4,0),(1,2),(2,1)\}$. One can verify that $z=-3$ and $\max_{\bpi \ge \bo} v(\bpi) = -6$.
+			
+		\end{enumerate}
+	\end{proof}
+
+	\newpage
+	\rhead{Problem 5}
+	\item Consider the problem of finding a shortest path in a directed network $G = (N, A)$ with
+	nodes $N = \{1, 2, . . . , n\}$ and arc distances $d_{ij} \in \mathbb{R}$, from a specified origin node $s$ to a
+	specified destination node $t$. We create an assignment problem from the network data
+	as follows:
+	\begin{quote}
+		Create nodes $i$ and $i'$
+		for each $i \in N$. For each arc $(i, j) \in A$, create arc $(i, j')$ with length $d_{ij}$ in the assignment network. Also create arcs $(i, i')$ with
+		weight zero.
+	\end{quote}
+	\begin{enumerate}[(a)]
+		\item Prove that the original network contains a negative-length cycle if and only if the
+		minimum-cost assignment has negative total weight.
+		\item  If the original network contains no negative cycle, then remove nodes $s'$ and $t$ and
+		all incidence arcs from the assignment network. Prove that the minimum-weight
+		assignment in this modified problem corresponds to a shortest $s-t$ path in the
+		original network.
+	\end{enumerate}
+	\begin{proof}~
+		\begin{tcolorbox}
+			Two theorems related to graph theory are heavily used in this proof.
+			\begin{thm}
+				A connected graph is a cycle if and only if every node has exactly two connected edges.
+			\end{thm}
+			\begin{thm}
+				A connected graph is a path if and only if exactly two nodes has only one connected edge and all other nodes has exactly two connected edges.
+			\end{thm}
+		 	\textbf{Observation:} Each cycle corresponds to a feasible solution to the assignment problem. For example,
+		 	\[
+		 	\text{Cycle }2\rightarrow 4 \rightarrow 2 ~\Leftrightarrow~ \{(2,4'),(4,2'),(1,1'),(3,3'),(5,5')\}
+		 	\]
+		 	
+		 	
+		\end{tcolorbox}
+	\newpage
+		\begin{enumerate}[(a)]
+			\item We first formulate this problem. For each arc $(i,j')$, define a variable \[
+			x_{ij}=\left\{
+			\begin{aligned}
+			&1,& &\text{arc }(i,j') \text{ is chosen}\\
+			&0,& &o.w.
+			\end{aligned}
+			\right.
+			\]
+			It's well-known that, for the assignment problem, we can relax the integrity constraint on $x_{ij}$. 
+			\begin{align*}
+			\min \quad &\sum_{(i,j)\in A}d_{ij}x_{ij}& (P)\\
+			s.t. \quad &\sum_{j=1}^n x_{ij} = 1, \quad i\in N \\
+			&\sum_{j=1}^n x_{ji} = 1, \quad i\in N \\
+			&0\le x_{ij}\le 1,\quad \forall (i,j)\in A\\
+			&0\le x_{ii}\le 1,\quad \forall i\in N 
+			\end{align*}
+			If there exists a negative-length cycle, say $i_1\rightarrow i_2\rightarrow \cdots \rightarrow i_n \rightarrow i_1$, in the graph, then we let $x_{i_1i_2} = x_{i_2i_3}=\cdots = x_{i_{n-1}i_n} = x_{i_ni_1}=1$. For all other nodes $j\in N\setminus\{i_1,i_2,\ldots,i_n\}$, we let $x_{jj} =1$. Obviously, this is a feasible solution for $(P)$. Moreover,
+			\[
+			\sum_{(i,j)\in A} d_{ij} x_{ij} = d_{i_1i_2}+d_{i_2i_3}+\ldots+d_{i_{n-1}i_n} + d_{i_ni_1} = \text{ length of cycle }<0
+			\]
+			So the optimal objective value of $(P)$ must be negative. ~\\
+			Conversely, assume $(P)$ has a negative optimal value and the optimal solution is $\bx^*$. Let $B=\{(i,j)\in A: x_{ij}^*=1\}$. Note that $\sum_{(i,j)\in B} d_{ij}= \sum_{(i,j)\in A}d_{ij}x_{ij}^* <0$. Let $N_B$ be the set of endpoints of arcs in $B$, i.e. $N_B = \{i\in N: \exists j\in N ~s.t.~ (i,j) \text{ or } (j,i)\in B\}$. We need to show there exists a cycle with negative length in $G(N_B,B)$. 
+			For each node $i\in N_B$, there exist exactly two edges $(i,k), (j,i)\in B$ where $k$ can be the same as $j$. Therefore, $G(N_B,B)$ consists of cycles $C_1,\ldots,C_m$.
+			\[
+			\ell(G(N_B,B)) = \ell(C_1)+\ldots+\ell(C_m) < 0
+			\]
+			where $\ell(C)$ is the length of $C$. The inequality above asserts that there exists $i\in \{1,2,\ldots,m\}$ such that $\ell(C_i)<0$.
+			
+			\newpage
+			\item Obviously, the minimum-weight assignment is no more than the length of the shortest $s-t$ path in the original network since we can convert every path to a feasible solution to the modified problem such that the length of path is equal to the objective value of corresponding solution. 
+			~\\
+			To prove the minimum-weight is no less than the length of the shortest $s-t$ path, let $\bx^*$ be the optimizer for the modified problem and let $B=\{(i,j)\in A: x^*_{ij}=1\}$ and $N_B=\{i\in N: \exists j\in N ~s.t.~ (i,j)\text{ or }(j,i)\in B\}$. In the graph $G(N_B,B)$, each node $i\in N\setminus\{s,t\}$ has two connected edges while $s, t$ only have 1 connected edge. Therefore, $G(N_B,B)$ consists of cycles $C_1,\ldots,C_m$ and a path $P$. In fact, $P$ is a $s-t$ path. 
+			\[
+			\ell(G(N_B,B)) = \ell(C_1)+\cdots+\ell(C_m)+\ell(P)
+			\]
+			Since $\bx^*$ is the minimizer and no cycle has negative length, we claim that $\ell(C_i) = 0$. Otherwise, if $\ell(C_i)>0$ for all $i=1,\ldots,m$, then $\bx^*$ will not be optimal since we can delete $C_i$ from $G(N_B,B)$ to derive a new solution with smaller length. Consequently,\[
+			\text{The shortest $s-t$ path has length } \le \ell(P)= \sum_{(i,j)\in A} d_{ij}x^*_{ij}.
+			\]
+		\end{enumerate}
+	\end{proof}
+	\newpage
+	\rhead{Problem 6}
+	\item \begin{enumerate}[(a)]
+	\item There are totally $8$ vertices of $X$, say $$\alpha_1 = \begin{bmatrix}
+	0\\0\\0
+	\end{bmatrix}, \alpha_2 = \begin{bmatrix}
+	1\\0\\0
+	\end{bmatrix},\alpha_3 = \begin{bmatrix}
+	0\\1\\0
+	\end{bmatrix},\alpha_4 = \begin{bmatrix}
+	0\\0\\1
+	\end{bmatrix},\alpha_5 = \begin{bmatrix}
+	1\\1\\0
+	\end{bmatrix},\alpha_6 = \begin{bmatrix}
+	1\\0\\1
+	\end{bmatrix},\alpha_7 = \begin{bmatrix}
+	0\\1\\1
+	\end{bmatrix},\alpha_8 = \begin{bmatrix}
+	1\\1\\1
+	\end{bmatrix}$$
+	To construct DW-master problem, we replace $\bx$ by the convex combination of $\{\alpha_i\}_{i=1}^8$.
+	\[
+	\bx  = \sum_{i=1}^8\lambda_i\alpha_i ~\Rightarrow~\begin{bmatrix}
+	x_1\\x_2\\x_3
+	\end{bmatrix}  =\begin{bmatrix}
+	\lambda_2 + \lambda_5+\lambda_6+\lambda_8\\
+	\lambda_3 + \lambda_5 + \lambda_7+\lambda_8\\
+	\lambda_4 + \lambda_6 + \lambda_7 + \lambda_8
+	\end{bmatrix}
+	\]
+	DW-master problem:
+	\begin{align*}
+	\max \quad &2\lambda_2-\lambda_3+5\lambda_4+\lambda_5+7\lambda_6+4\lambda_7+6\lambda_8\\
+	s.t. \quad &6\lambda_2-\lambda_3+3\lambda_4+5\lambda_5+9\lambda_6+2\lambda_7+8\lambda_8\le 4\\
+	&\sum_{i=1}^8\lambda_i=1\\
+	&\lambda_i \ge 0&\forall i=1,2,\ldots,8
+	\end{align*}
+	
+	\item Restricted master problem:
+	\begin{align*}
+	\max \quad &0\\
+	s.t. \quad &s = 4\\
+	&\lambda_1 = 1
+	\end{align*}
+	The solution is $\begin{bmatrix}
+	\lambda_1^*\\s^*
+	\end{bmatrix} = \begin{bmatrix}
+	1\\4
+	\end{bmatrix}$.
+	
+	\item The associated dual solution of $\begin{bmatrix}
+	\lambda_1^*\\s^*
+	\end{bmatrix}$ is $\begin{bmatrix}
+	\pi\\\pi_0
+	\end{bmatrix}^\top = 
+	\begin{bmatrix}
+	0\\0
+	\end{bmatrix}^\top \begin{bmatrix}
+	0 &1\\
+	1 & 0\\
+	\end{bmatrix}^{-1} = \begin{bmatrix}
+	0\\0
+	\end{bmatrix}^\top$. Based on the original formulation given in the problem, we introduce two vectors.\[
+	\bc = \begin{bmatrix}
+	2\\-1\\5
+	\end{bmatrix},~A = \begin{bmatrix}
+	6 &-1 &3
+	\end{bmatrix}
+	\]
+	The corresponding subproblem:
+	\[
+	\begin{aligned}
+	\max \quad &\bc^\top \bx - \pi^\top A\bx -\pi_0\\
+	s.t. \quad &\bx \in X
+	\end{aligned} ~~\Leftrightarrow~~ \begin{aligned}
+	\max \quad &2x_1-x_2+5x_3\\
+	s.t.\quad & 0\le x_i\le 1&\forall i=1,2,3
+	\end{aligned}
+	\]
+	Obviously, the optimal solution is $\alpha_6 = \begin{bmatrix}
+	1\\0\\1
+	\end{bmatrix}$. And the updated restricted problem is 
+	\begin{align*}
+	\max \quad & 7\lambda_6\\
+	s.t. \quad & 9\lambda_6 + s =4\\
+	&\lambda_1 + \lambda_6 = 1\\
+	&\lambda_1,\lambda_6,s\ge 0
+	\end{align*}
+	The optimal solution is $$\begin{bmatrix}
+	\lambda_1^*\\\lambda_6^*\\s^*
+	\end{bmatrix} = \begin{bmatrix}
+	5/9\\4/9\\0
+	\end{bmatrix}$$
+	
+	\item The dual solution of $\begin{bmatrix}
+	\lambda_1^*\\\lambda_6^*\\s^*
+	\end{bmatrix}$ is $\begin{bmatrix}
+	\pi\\\pi_0
+	\end{bmatrix}^\top = \begin{bmatrix}
+	0\\7
+	\end{bmatrix}^\top \begin{bmatrix}
+	0 & 9 \\
+	1 & 1 \\
+	\end{bmatrix}^{-1} = \begin{bmatrix}
+	7/9\\0
+	\end{bmatrix}^\top$\\
+	The corresponding subproblem:
+	\[
+	\begin{aligned}
+	\max \quad &\bc^\top \bx - \pi^\top A\bx -\pi_0\\
+	s.t. \quad &\bx \in X
+	\end{aligned} ~~\Leftrightarrow~~ \begin{aligned}
+	\max \quad &\dfrac{2}{9}(-12x_1-x_2+12x_3)\\
+	s.t.\quad & 0\le x_i\le 1&\forall i=1,2,3
+	\end{aligned}
+	\]
+	
+\end{enumerate}
+\end{enumerate}

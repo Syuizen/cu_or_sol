@@ -1,0 +1,415 @@
+\begin{enumerate}
+	\lhead{Winter 19}
+	\rhead{Problem 1}
+	\item 
+	\begin{enumerate}[(a)]
+		\item $b = -4$. The line $x_1+4x_2+b=0$ should pass through $\bar{\bx} = (0,1)$.
+		
+		\item Let $\mathcal{L}(x_1,x_2,\mu,\lambda) = (x_1+4)^2+(x_2-2)^2 + \mu(x_1^2+16x^2_2-16) - \lambda(x_1+4x_2-5)$. Then
+		KKT conditions are
+		\begin{align*}
+		 2(x_1+4)+2\mu x_1-\lambda&= 0 \\
+		 2(x_2-2)+32\mu x_2-4\lambda&=0\\
+		\lambda (x_1+4x_2-4) &= 0\\
+		x_1^2+16x_2^2-16&=0\\
+		-x_1-4x_2+4&\le 0\\
+		\lambda &\ge 0		 			 
+		\end{align*}
+		At $\bar{\bx} = (0,1)$, KKT conditions become
+		\begin{align*}
+		8-\lambda&= 0 \\
+		-2+32\mu-4\lambda&=0\\
+		\lambda &\ge 0	
+		\end{align*}
+		Solve for $\mu,\lambda$ to get $\begin{bmatrix}
+		\mu\\\lambda
+		\end{bmatrix} = \begin{bmatrix}
+		 17/16\\8
+		\end{bmatrix}$. So $\bar{\bx}$ is a KKT point. Moreover, the gradients of active constraints are
+		\[
+		\nabla h(\bar{\bx}) = \begin{bmatrix}
+		0\\32
+		\end{bmatrix};~~\nabla g(\bar{\bx}) =\begin{bmatrix}
+		-1 \\ -4
+		\end{bmatrix}
+		\]
+		Obviously, these two vectors are linearly independent and thus $\bar{\bx}$ satisfies the KKT first-order KKT necessary conditions.
+	\end{enumerate}
+	
+	\newpage
+	\rhead{Problem 2}
+	\item \begin{enumerate}[(a)]
+		\item There are totally $8$ vertices of $X = \{\bx\in \mathbb{R}^3: 0\le x_1,x_2,x_2\le 1 \}$, say $$\alpha_1 = \begin{bmatrix}
+		0\\0\\0
+		\end{bmatrix}, \alpha_2 = \begin{bmatrix}
+		1\\0\\0
+		\end{bmatrix},\alpha_3 = \begin{bmatrix}
+		0\\1\\0
+		\end{bmatrix},\alpha_4 = \begin{bmatrix}
+		0\\0\\1
+		\end{bmatrix},\alpha_5 = \begin{bmatrix}
+		1\\1\\0
+		\end{bmatrix},\alpha_6 = \begin{bmatrix}
+		1\\0\\1
+		\end{bmatrix},\alpha_7 = \begin{bmatrix}
+		0\\1\\1
+		\end{bmatrix},\alpha_8 = \begin{bmatrix}
+		1\\1\\1
+		\end{bmatrix}$$
+		DW-master problem:
+		\begin{align*}
+		\min \quad &3\lambda_2+6\lambda_3+4\lambda_4+9\lambda_5+7\lambda_6+10\lambda_7+13\lambda_8\\
+		s.t. \quad &6\lambda_2+4\lambda_3+3\lambda_4+10\lambda_5+9\lambda_6+7\lambda_7+13\lambda_8\ge 8\\
+		&\sum_{i=1}^8\lambda_i=1\\
+		&\lambda_i \ge 0&\forall i=1,2,\ldots,8
+		\end{align*}
+		
+		\item Restricted master problem: (introduce a slack variable $s$)
+		\begin{align*}
+		\min \quad &7\lambda_6\\
+		s.t. \quad &9\lambda_6-s= 8\\
+		&\lambda_1+\lambda_6=1\\
+		&\lambda_1,\lambda_6,s \ge 0
+		\end{align*}
+		The optimal solution is $\begin{bmatrix}
+		\lambda_1^*\\\lambda_6^*\\s^* 
+		\end{bmatrix} = \begin{bmatrix}
+		1/9\\8/9\\0
+		\end{bmatrix}$. The corresponding dual solution is $$\begin{bmatrix}
+		\pi\\\pi_0
+		\end{bmatrix}^\top = \begin{bmatrix}
+		0\\7
+		\end{bmatrix}^\top \begin{bmatrix}
+		0 & 9\\1 & 1
+		\end{bmatrix}^{-1} = \begin{bmatrix}
+		7/9\\0
+		\end{bmatrix}^\top$$
+		\newpage
+		\item From the original problem, $$
+		\bc = \begin{bmatrix}
+		3\\6\\4
+		\end{bmatrix};~A=\begin{bmatrix}
+		6 \\ 4 \\3
+		\end{bmatrix}^\top$$
+		The corresponding subproblem:
+		\[
+		\begin{aligned}
+		\min \quad &\bc^\top \bx - \pi^\top A\bx -\pi_0\\
+		s.t. \quad &\bx \in X
+		\end{aligned} ~~\Leftrightarrow~~ \begin{aligned}
+		\min \quad &\dfrac{1}{9}(-15x_1+26x_2+15x_3)\\
+		s.t.\quad & 0\le x_i\le 1&\forall i=1,2,3
+		\end{aligned}
+		\]
+		The optimal solution is $\alpha_2 =\begin{bmatrix}
+		1\\0 \\ 0
+		\end{bmatrix}$.
+		
+		\item The new restricted master problem after adding $\alpha_2$:
+		\begin{align*}
+		\min \quad &3\lambda_2+7\lambda_6\\
+		s.t. \quad &6\lambda_2+9\lambda_6\ge 8\\
+		&\lambda_1+\lambda_2+\lambda_6=1\\
+		&\lambda_1,\lambda_2,\lambda_6\ge 0
+		\end{align*}
+	\end{enumerate}
+	
+	\newpage 
+	\item \rhead{Problem 3}
+	\begin{enumerate}[(a)]
+		\item Let $x_{ij}$ be the amount of flow passing through arc $i\rightarrow j$.
+		\begin{align*}
+		\min \quad & 2x_{12}+6x_{13}+x_{23}+5x_{24}+2x_{34}\\
+		s.t\quad & x_{12} + x_{13} = 8\\
+		&x_{24}+x_{23} = x_{12} + 6\\
+		&x_{34} + 3 = x_{13}+x_{23}\\
+		&11 = x_{24} + x_{34} \\
+		&x_{12}, x_{13}, x_{24}, x_{23}, x_{34}\ge 0
+		\end{align*}
+		
+		\item 
+		Let $x_{23} = x_{34} =0$. We derive $\begin{bmatrix}
+		x_{12}\\ x_{13}\\x_{24}
+		\end{bmatrix} = \begin{bmatrix}
+		5\\3\\11
+		\end{bmatrix}$. Solve $\left\{
+		\begin{aligned}
+		p_2 - p_1 &= 2\\
+		p_3 - p_1 & = 6\\
+		p_4 - p_2 & = 5\\
+		p_4 &= 0
+		\end{aligned}
+		\right.$ to get $\begin{bmatrix}
+		p_1\\p_2\\p_3\\p_4
+		\end{bmatrix} = \begin{bmatrix}
+		 -7\\ -5\\ -1\\0
+		\end{bmatrix}$. The reduced costs are
+		\[
+		\begin{bmatrix}
+		\bar{c}_{23}\\
+		\bar{c}_{34}
+		\end{bmatrix} = \begin{bmatrix}
+		c_{23} + p_2 - p_3\\
+		c_{34} + p_3 - p_4
+		\end{bmatrix} = \begin{bmatrix}
+		-3\\1
+		\end{bmatrix}
+		\]
+		Therefore, we move $x_{23}$ into basis and remove $x_{13}$ from the basis. Recompute the solution, we get
+		\(
+		\begin{bmatrix}
+		x_{12}\\x_{23}\\x_{24}
+		\end{bmatrix} = \begin{bmatrix}
+		8\\3\\11
+		\end{bmatrix}
+		\). Similarly, solve $\left\{
+		\begin{aligned}
+		p_2 - p_1 &= 2\\
+		p_3 - p_2 & = 1\\
+		p_4 - p_2 & = 5\\
+		p_4 &= 0
+		\end{aligned}
+		\right.$ to get $\begin{bmatrix}
+		p_1\\p_2\\p_3\\p_4
+		\end{bmatrix} = \begin{bmatrix}
+		-7\\ -5\\ -4\\0
+		\end{bmatrix}$. The reduced costs are
+		\[
+		\begin{bmatrix}
+		\bar{c}_{13}\\
+		\bar{c}_{34}
+		\end{bmatrix} = \begin{bmatrix}
+		c_{13} + p_1 - p_3\\
+		c_{34} + p_3 - p_4
+		\end{bmatrix} = \begin{bmatrix}
+		3\\-2
+		\end{bmatrix}
+		\]
+		Move $x_{34}$ into basis and remove $x_{24}$.
+		The new solution is \(
+			\begin{bmatrix}
+		x_{12}\\x_{23}\\x_{34}
+		\end{bmatrix} = \begin{bmatrix}
+		8\\14\\11
+		\end{bmatrix}
+		\). Solve $\left\{
+		\begin{aligned}
+		p_2 - p_1 &= 2\\
+		p_3 - p_2 & = 1\\
+		p_4 - p_3 & = 2\\
+		p_4 &= 0
+		\end{aligned}
+		\right.$ to get $\begin{bmatrix}
+		p_1\\p_2\\p_3\\p_4
+		\end{bmatrix} = \begin{bmatrix}
+		-5\\ -3\\ -2\\0
+		\end{bmatrix}$. The reduced costs of nonbasic variables are
+		\[
+		\begin{bmatrix}
+		\bar{c}_{13}\\
+		\bar{c}_{24}
+		\end{bmatrix} = \begin{bmatrix}
+		c_{13} + p_1 - p_3\\
+		c_{24} + p_2 - p_4
+		\end{bmatrix} = \begin{bmatrix}
+		3\\2
+		\end{bmatrix}
+		\]
+		All entries are positve, so current solution is optimal.
+		
+		\item $c_{13} + p_1-p_3\ge 0 ~\Leftrightarrow~ c_{13} \ge 3$.
+		
+		\item The reduced costs now are
+		\[
+		\begin{bmatrix}
+		\bar{c}_{13}\\
+		\bar{c}_{24}
+		\end{bmatrix} = \begin{bmatrix}
+		c_{13} + p_1 - p_3\\
+		c_{24} + p_2 - p_4
+		\end{bmatrix} = \begin{bmatrix}
+		3\\-1
+		\end{bmatrix}
+		\]
+		We need to move $x_{24}$ into basis and remove $x_{34}$. The new solution is
+		\(
+		\begin{bmatrix}
+		x_{12}\\x_{23}\\x_{24}
+		\end{bmatrix} = \begin{bmatrix}
+		8\\3\\11
+		\end{bmatrix}
+		\).  Solve $\left\{
+		\begin{aligned}
+		p_2 - p_1 &= 2\\
+		p_3 - p_2 & = 1\\
+		p_4 - p_2 & = 2\\
+		p_4 &= 0
+		\end{aligned}
+		\right.$ to get $\begin{bmatrix}
+		p_1\\p_2\\p_3\\p_4
+		\end{bmatrix} = \begin{bmatrix}
+		-4\\ -2\\ -1\\0
+		\end{bmatrix}$. The reduced costs are
+		\[
+		\begin{bmatrix}
+		\bar{c}_{13}\\
+		\bar{c}_{24}
+		\end{bmatrix} = \begin{bmatrix}
+		c_{13} + p_1 - p_3\\
+		c_{34} + p_3 - p_4
+		\end{bmatrix} = \begin{bmatrix}
+		3\\1
+		\end{bmatrix}
+		\]
+		The new solution is the optimizer since reduced costs are all nonnegative.
+		
+		\item With the optimal solution derived in part (a), we can compute the reduced cost of $x_{14}$.
+		$$\bar{c}_{14} = c_{14} +  p_1 - p_4 = -1$$
+		So we should move $x_{14}$ into basis and remove $x_{12}$. The new basic solution is \(
+		\begin{bmatrix}
+		x_{14}\\x_{23}\\x_{24}
+		\end{bmatrix} = \begin{bmatrix}
+		8\\3\\3
+		\end{bmatrix}
+		\).  Solve $\left\{
+		\begin{aligned}
+		p_4 - p_1 &= 4\\
+		p_3 - p_2 & = 1\\
+		p_4 - p_2 & = 2\\
+		p_4 &= 0
+		\end{aligned}
+		\right.$ to get $\begin{bmatrix}
+		p_1\\p_2\\p_3\\p_4
+		\end{bmatrix} = \begin{bmatrix}
+		-4\\ -2\\ -1\\0
+		\end{bmatrix}$. The reduced costs are
+		\[
+		\begin{bmatrix}
+		\bar{c}_{13}\\
+		\bar{c}_{24}
+		\end{bmatrix} = \begin{bmatrix}
+		c_{13} + p_1 - p_3\\
+		c_{34} + p_3 - p_4
+		\end{bmatrix} = \begin{bmatrix}
+		3\\1
+		\end{bmatrix}
+		\]
+		Since all nonbasic variables have positive reduced costs, current solution is optimal.
+	\end{enumerate}
+	
+	\newpage
+	\item \rhead{Problem 4}
+	\begin{enumerate}[(a)]
+		\item First, we need to show $C^*$ is convex. $\forall \lambda\in (0,1)$ and $\by_1,\by_2\in C^*$,\[
+		(\lambda\by_1+(1-\lambda)\by_2)^\top \bx = \lambda \by_1^\top \bx + (1-\lambda) \by_2^\top \bx \le 0,~\forall \bx\in C
+		\]
+		So $\lambda \by_1+(1-\lambda)\by_2\in C^*$ and $C^*$ is therefore convex. To prove $C^*$ is a cone, we observe that, for all $\gamma \ge 0$, 
+		\[
+		\forall \by \in C^*,~\gamma \by^\top\bx \le 0,~\forall \bx\in C
+		\] 
+		Hence $\gamma\by\in C^*$ which implies $C^*$ is a cone.
+		
+		\item Let's show $\{A^\top \lambda: \lambda\ge \bo\}\subseteq C^*$ first. It follows directly from definitions of $C$ and $C^*$.
+		\[
+		\forall \bx \in C,~\left(A^\top \lambda\right)^\top \bx  = \lambda^\top A\bx \le 0~\Rightarrow~ A^\top\lambda \in C^*,~\forall \lambda\ge \bo
+		\] 
+		Conversely, we need to show $C^*\subseteq \{A^\top\lambda: \lambda\ge \bo\}$. Suppose not, there exists $\by\in C^*$ but $\by \not\in \{A^\top\lambda:\lambda\ge \bo\}$. In other words,
+		\[
+		\{\lambda \in \mathbb{R}^n: A^\top \lambda = \by, \lambda\ge \bo \} = \emptyset
+		\]
+		By Farkas' lemma, there exists $\bx$ such that $A\bx\le \bo$ and $\by^\top \bx >0$. However, this is impossible. By assumption $\by \in C^*$, we know if $\bx \in C$, then $\by^\top \bx \le 0$. The contraposition is, if $\by^\top \bx >0$, then $\bx \not \in C$ which disproves $A\bx \le \bo$.
+		
+		\item Draw a picture of $P$, then it's easy to derive
+		\[
+		0^+P = \left\{\alpha \bx + \beta \by: \bx = (2,6), \by = (4,2), \alpha,\beta \ge 0  \right\}
+		\]
+		Note that $(-3, 1) \perp (2,6)$ and $(-1,2)\perp (4,2)$.
+		\[
+		(0^+P)^* = \left\{ \bx =(x_1,x_2)\in \mathbb{R}^2 ~|~ x_1+3x_2\le 0, ~2x_1+x_2\le 0 \right\}
+		\]
+		
+		
+	\end{enumerate}
+	
+	\newpage 
+	\item \rhead{Problem 5}
+	\begin{enumerate}[(a)]
+		\item Since $P$ is a polyhedron, there exist a matrix $B\in \mathbb{R}^{h\times m}$ and vector $\bd\in \mathbb{R}^h$ such that $P =\{\by \in \mathbb{R}^m: B\by \le \bd \}$. Then we can rewrite $\mathcal{A}(P)$ as follows:
+		\[
+		\mathcal{A}(P) = \left\{ 
+		\bx \in \mathbb{R}^{n} ~\middle |~ \exists \by\in \mathbb{R}^m \text{ such that } \begin{bmatrix}
+		I & A\\
+		I & -A\\
+		0 & B
+		\end{bmatrix} \begin{bmatrix}
+		\bx \\ \by
+		\end{bmatrix} \le \begin{bmatrix}
+		\bo\\\bo\\\bd
+		\end{bmatrix}  \right\}
+		\]
+		Let $T = \left\{ \begin{bmatrix}
+		\bx \\ \by
+		\end{bmatrix} \in \mathbb{R}^{n+m} ~\middle |~ \begin{bmatrix}
+		I & A\\
+		I & -A\\
+		\mathcal{O} & B
+		\end{bmatrix} \begin{bmatrix}
+		\bx \\ \by
+		\end{bmatrix} \le \begin{bmatrix}
+		\bo\\\bo\\\bd
+		\end{bmatrix}  \right\}$. Then $T$ is a polyhedron and  
+		\[
+		\mathcal{A}(P) = \left\{ 
+		\bx \in \mathbb{R}^{n} ~\middle |~ \exists \by\in \mathbb{R}^m \text{ such that } (\bx,\by)\in T\right\}
+		\]
+		By the proposition given in the problem, $\mathcal{A}(P)$ is also a polyhedron.
+		
+		\item We use the same trick as in part (a). Since $P$ and $Q$ are two polyhedrons, there exist $B\in \mathbb{R}^{h\times n}$, $C\in \mathbb{R}^{r\times n}$, $\bd \in \mathbb{R}^h$, and $\bg \in \mathbb{R}^r$  such that 
+		\[
+		P =\{\bx \in \mathbb{R}^n: B\bx \le \bd \};~Q =\{\by \in \mathbb{R}^n: C\by \le \bg \}
+		\]
+		Let $\bz = \bx + \by$. Then we rewrite $P+Q$ as 
+		\[
+		P+Q = \left\{ \bz \in \mathbb{R}^n ~\middle |~ \exists \begin{bmatrix}
+		\bx\\\by
+		\end{bmatrix}\in \mathbb{R}^{2n} \text{ such that }\begin{bmatrix}
+		B & \mathcal{O} & \mathcal{O}\\
+		\mathcal{O} & C & \mathcal{O}\\
+		I & I & - I \\
+		-I & -I & I  
+		\end{bmatrix} \begin{bmatrix}
+		\bx \\ \by \\ \bz
+		\end{bmatrix} \le \begin{bmatrix}
+		\bd \\ \bg \\ \bo\\\bo 
+		\end{bmatrix} \right\}
+		\]
+		Let \[
+		T = \left\{ \begin{bmatrix}
+		\bx \\ \by \\ \bz
+		\end{bmatrix} \in \mathbb{R}^{3n} ~\middle |~ \begin{bmatrix}
+		B & \mathcal{O} & \mathcal{O}\\
+		\mathcal{O} & C & \mathcal{O}\\
+		I & I & - I \\
+		-I & -I & I  
+		\end{bmatrix} \begin{bmatrix}
+		\bx \\ \by \\ \bz
+		\end{bmatrix} \le \begin{bmatrix}
+		\bd \\ \bg \\ \bo\\\bo 
+		\end{bmatrix} \right\}
+		\]
+		Then $T$ is a polyhedron and \[
+		P+Q = \left\{ \bz \in \mathbb{R}^n ~\middle |~ \exists \begin{bmatrix}
+		\bx\\\by
+		\end{bmatrix}\in \mathbb{R}^{2n} \text{ such that }(\bx,\by,\bz )\in T\right\}
+		\]
+		Therefore, $P+Q$ is a polyhedron.
+		\newpage 
+		\item Let $\bz^*$ be an extreme point of $P+Q$. By definition, there exist $\ba\in P, \bb\in Q$ such that $\bz^*=\ba+\bb$. Now let's prove $\ba$ is an extreme point of $P$ by contradiction.
+		Suppose not, then there exist two different elements $\bx_1, \bx_2\in P$ and a scalar $\lambda\in (0,1)$ such that $\ba = \lambda \bx_1 + (1-\lambda)\bx_2$. Observe that 
+		\[
+		\bx_1 + \bb, \bx_2 +\bb \in P+Q ~\Rightarrow~ \lambda (\bx_1+\bb) +(1-\lambda)(\bx_2+\bb) =\bz^*
+		\]
+		Then $\bz^*$ is not an extreme point which conflicts to our choice of $\bz^*$. Hence $\ba$ is an extreme point of $P$. Similarly, one can show $\bb$ is an extreme point of $Q$. Consequently, $\bz^*$ is the sum of two extreme points. 
+		
+	\end{enumerate}
+\end{enumerate}
